@@ -20,13 +20,12 @@ const findByIdTarefa = async (req, res) => {
   const tarefa = await tarefaService.findByIdTarefa(id);
 
   taskExists(tarefa, res);
-
+  res.send(tarefa);
 };
 
 const createTarefa = async (req, res) => {
   const tarefa = req.body;
 
-  
   const newTarefa = await tarefaService.createTarefa(tarefa);
 
   res.status(201).send(newTarefa);
@@ -34,25 +33,30 @@ const createTarefa = async (req, res) => {
 
 const updateTarefa = async (req, res) => {
   const id = req.params.id;
-  const editTarefa = req.body;
-
+  const editTarefa = req.body
   const tarefa = await tarefaService.findByIdTarefa(id);
   taskExists(tarefa, res);
-  fieldsCheck(editTarefa, res);
+
+  const updateTarefa = await tarefaService.updateTarefa(id, editTarefa);
 
   res.send(updateTarefa);
 };
 
 const deleteTarefa = async (req, res) => {
   const id = req.params.id;
-  const tarefa = await tarefaService.findByIdTarefa(id)
+  const tarefa = await tarefaService.findByIdTarefa(id);
 
   taskExists(tarefa, res);
 
   await tarefaService.deleteTarefa(id);
 
-  res.send({message:'Task Deleted Successfully!'})
+  res.send({ message: 'Task Deleted Successfully!' });
+};
 
-}
-
-module.exports = { findAllTarefas, findByIdTarefa, createTarefa, updateTarefa, deleteTarefa};
+module.exports = {
+  findAllTarefas,
+  findByIdTarefa,
+  createTarefa,
+  updateTarefa,
+  deleteTarefa,
+};
