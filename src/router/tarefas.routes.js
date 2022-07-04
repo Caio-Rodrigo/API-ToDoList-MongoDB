@@ -1,12 +1,14 @@
-const tarefasController = require('../controller/tarefas.controllers');
-const Tarefa = require('../models/Tarefa');
-
 const router = require('express').Router();
+const tarefasController = require('../controller/tarefas.controllers');
+const {
+  validId,
+  validObjectBody,
+} = require('../middlewares/tarefas.middleware');
 
-router.get('/', tarefasController.findAllTarefas)
-router.get('/:id', tarefasController.findByIdTarefa)
-router.post('/', tarefasController.createTarefa)
-router.put('/:id', tarefasController.updateTarefa)
-router.delete('/:id', tarefasController.deleteTarefa)
+router.get('/', tarefasController.findAllTarefas);
+router.get('/:id', validId, tarefasController.findByIdTarefa);
+router.post('/', validObjectBody, tarefasController.createTarefa);
+router.put('/:id', validObjectBody, validId, tarefasController.updateTarefa);
+router.delete('/:id', validId, tarefasController.deleteTarefa);
 
-module.exports = router
+module.exports = router;
